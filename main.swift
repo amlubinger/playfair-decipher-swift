@@ -9,6 +9,7 @@
  * It'll use English frequency analysis for tetragrams, and then check for the expected phrase with the top scoring plaintexts.
  *
  * In Windows, after Swift is installed correctly, compile and run with the following commands in an x64 VS 2019 Command Prompt
+ * set SWIFTFLAGS=-sdk %SDKROOT% -resource-dir %SDKROOT%/usr/lib/swift -I %SDKROOT%/usr/lib/swift -L %SDKROOT%/usr/lib/swift/windows
  * swiftc %SWIFTFLAGS% -emit-executable -o C:/Users/andre/Documents/School/"LING 3801"/Playfair.exe C:/Users/andre/Documents/School/"LING 3801"/main.swift C:/Users/andre/Documents/School/"LING 3801"/tetragrams.swift
  * C:/Users/andre/Documents/School/"LING 3801"/Playfair.exe
  */
@@ -17,9 +18,15 @@ import Foundation
 
 //User inputs
 //Ciphertext, spaces can be included
-let ciphertext = "PHZPT FPFPE RAOBT PBMWT NIRHN FBKNB ETNMT OAXET AWRAP AREPA INXFN XBZPA FPARL DFWAM ZBFRA RFODP PFOBN UAKNB BCARR PFMTO ARXDC BLBFQ OEPTX INUTC FACEQ IKPVN XFBLO HEKIV ONRAR EPACT BMBOC OLHPW PMPEW NXIKA HEKCD PNINP QAAMV KBKEB GPOFE KWNIF OBTPB MFAAR CTKBO BZKAR EPOXB CBLRH NFBOI FBCAK ROQBL BFXPF CTWNK BDVMI WKNAE GDPNE ANPMN PWPBC OBENK BDVQP NWPBT WIFON OFNOH IUXFA BEINW PMZAF PZNFT CTDPF EBWTZ KZOSI NIECK BOBTD ETMAW PAOKP CEYOK EKBAR FOXIN XNOAO FRXIX OEBKQ BLLBE TZHOC ENNAV DPWON SBCKT OVLNA ARSPN OCITC FANXG OROMA HLOKF OQBLB TEYOK WCOPS GENPI FKHFA KNAOD VOHIN PDINA MEBHL POARX IKTTF RAFNC IFAKE KBARF OXIHO AREOK URHPF ZEQAO FPURA PFTZC TFNTA TRHMV OIVNP MZBZL NQBLB XFKZL AOFIK AKICY ONXFX ETOWD KDLBP BMZTL AOHRE OHMOI BXOEB KQBLL BETFP WPKPE LNFXO REPAN UAFPZ RAOFE TTENI RAPFB CNMVK KPERA OINET PSOAR OEBLI AREOA RZBCW QIQPR EPABK RNANP MEUEN SBWPP SKADL NFIND NPFNF TOHCK ZNIBH MPKPH OINET KBAKB OZSBC RNROK BRARF HQZFN FBCRW OAPXW PCTNF KZARC WQIKD PURAR HAMZT ONSBP DLBTN VDXUE BCPPX NFINX FECBC RPERA OINET PSOAR OCWQI QPOFE TTENI RAARE POXBC OFNIZ QSPXQ AMCOX NWPAQ NIUGE SOVQB ZSTOV LSEMO EBDLR OQISP IFNXH YETRO IFHBM AECPE RAOBT PBMBC RAPNZ BSPXQ RPERT EZPVD XIFAF OXIRA ECBCO FESOV MZNIC AIMWQ NXNLP SWPFR BOINE TBCOB ZSTOV LPSKP EMPAB CNMVK VLREK PWQNF CTCNU EXOEB LAPAB KOBOB NLOND BLBKZ XNKYP MZQVT BOISV QTKOB PFCEO XUEAR BZETM HXPKB NIBLK YNIOF KPMAC TPSOA FRMAL NPUVK OAKTT FARNO EBFLO NPSKB OYKCY OONSB NUNED VQPON APDNI NXIPO XNIFZ KXOBP MKBVP FKZNA BCOBA OBMLN IBNOE YDBDC ETFOM ACOEO IFBCR NROKB RARFH QIVEB NOHLC AVKHP QIKPV ENXEP NXIXE TOWDK DLBPB MZTLA OHREO HMOIB XOEBK QBLLB ETECE BUXDB XFNXB CNMMP ONMAK TIFQV BCREA PEPMA LVEBL DXFUA FNBLE TQVCE YOEPN XNCTO APFNL MTLMH APKNF AFOXI RAECC RWPEX WNXIC EOXDB LAPKN ITDPS KZIHD PBLTP IEAOK CTDPS QVTVK BCPEF BCAMX ORNON ARKTQ NWNIF OBTPB MENAR KTQNW NIFBC OBBCR PERAO INETK TXINX WOBZK HFACV MPGPR MWOKB LBBKR NNWKB SBBKE KPNLE PABOX IKZRI IVNPM ZRAPM AKICY ONXCX FAWNQ BKZEP CNFAS PKBHO AREOK URHPF PMDPR AVRMP BZRAA MVOIV ZVMZN IFBNE TCOLR WZBIF KPHOK DYOAR TFZRI BBCNF RNNOO AVDAM IBXOE BKQBL LBETV NIFEU".replacingOccurrences(of: " ", with: "").lowercased()
+print("Enter the ciphertext:\n")
+let ciphertext = readLine()!.replacingOccurrences(of: " ", with: "").lowercased()
 //An expected phrase or word that should be in the plain text.
-let expectedPhrase = "Reconnoiter".replacingOccurrences(of: " ", with: "").lowercased()
+print("Enter an expected phrase or a long string and just close pay attention:\n")
+let expectedPhrase = readLine()!.replacingOccurrences(of: " ", with: "").lowercased()
+//Ask how many tries until just returning the best result. Too large and it might not ever print the best result, too few and it might be close but not quite make it.
+//I've seen it take between about 3k-15k guesses when it works in a reasonable amount of time. I'd say 20k is probably a reasonable maximum then to not waste time.
+print("What is the maximum number of guesses I can make? I recommend 20000.\n")
+let maximumTries = Int(readLine()!)!
 
 //Decipher using the key
 //Takes the grid as a paramter
@@ -272,7 +279,7 @@ var keepTrying = true
 //Run playfair over and over with different keys until we find the expected phrase
 //in the plaintext. At that point, show the user the possible plaintext and ask if it is
 //correct. If not correct, continue. If correct, print the key.
-while(keepTrying && tries < 10000000000) { //try until correct with a maximum of ~10 billion attempts, arbitrarily chosen
+while(keepTrying && tries < maximumTries) {
   var grid = [["x","x","x","x","x"],["x","x","x","x","x"],["x","x","x","x","x"],["x","x","x","x","x"],["x","x","x","x","x"]]
   if(tries % 1000000 == 0 || shouldTryAgain) {
     //let's get a new random key to start from instead of just making lots of minor changes.
