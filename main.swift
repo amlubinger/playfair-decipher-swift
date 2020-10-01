@@ -1,5 +1,5 @@
 /*
- * Playfair decryption tool in Python by Andrew Lubinger
+ * Playfair decryption tool in Swift by Andrew Lubinger
  *
  * Not necessarily the most efficient, but it's not brute force because that's... like... impossible.
  * Hill climbing kinda. 
@@ -8,13 +8,15 @@
  * If you're confident that a word/phrase will be in the plaintext, set that variable too.
  * It'll use English frequency analysis for tetragrams, and then check for the expected phrase with the top scoring plaintexts.
  *
- * In Windows, after Swift is installed correctly, compile and run with the following commands in an x64 VS 2019 Command Prompt
+ * In Windows, after Swift is installed correctly, compile and run with the following commands in an admin x64 VS 2019 Command Prompt
  * set SWIFTFLAGS=-sdk %SDKROOT% -resource-dir %SDKROOT%/usr/lib/swift -I %SDKROOT%/usr/lib/swift -L %SDKROOT%/usr/lib/swift/windows
  * swiftc %SWIFTFLAGS% -emit-executable -o C:/Users/andre/Documents/School/"LING 3801"/Playfair.exe C:/Users/andre/Documents/School/"LING 3801"/main.swift C:/Users/andre/Documents/School/"LING 3801"/tetragrams.swift
  * C:/Users/andre/Documents/School/"LING 3801"/Playfair.exe
  */
 
 import Foundation
+
+//First entry point.
 
 //User inputs
 //Ciphertext, spaces can be included
@@ -178,6 +180,7 @@ func gridFrom(grid: [[String]]) -> [[String]] {
   var n3 = -1
   var n4 = -1
   var option = -1
+  //Try to get a new grid but need to stop trying after a certain number of attempts
   while(usedGrids.contains(newGrid) && attempts < 100000) {
     attempts += 1
     newGrid = grid
@@ -185,6 +188,9 @@ func gridFrom(grid: [[String]]) -> [[String]] {
     n2 = Int.random(in: 0...4)
     n3 = Int.random(in: 0...4)
     n4 = Int.random(in: 0...4)
+    //Choose a random option
+    //The options other than the character swap are changing more of the grid, so make those happen less often.
+    //Character swap is the smallest change, so make that the default and use a random number which chooses default a lot.
     option = Int.random(in: 0...50)
     switch option {
       case 0:
@@ -224,7 +230,7 @@ func gridFrom(grid: [[String]]) -> [[String]] {
         }
 
       default:
-        //character swap
+        //character swap, smallest and most common change
         let char = newGrid[n1][n2]
         newGrid[n1][n2] = newGrid[n3][n4]
         newGrid[n3][n4] = char
@@ -239,7 +245,7 @@ func gridFrom(grid: [[String]]) -> [[String]] {
       shouldTryAgain = true
     }
   } else {
-    //Found a new grid, keep track of this change
+    //Found a new grid, keep track of this change so we can go back if necessary
     on1 = n1
     on2 = n2
     on3 = n3
@@ -258,7 +264,7 @@ func getScore(text: String) -> Double {
   var score = 0.0
   for pairPos in 0..<text.count - 3 {
     let quartet = String(text[text.index(text.startIndex, offsetBy: pairPos)...text.index(text.startIndex, offsetBy: pairPos + 3)])
-    if let englishFrequency = tetragrams[quartet.uppercased()] { //make it uppercased because i dont feel like changing tetragrams rn lol
+    if let englishFrequency = tetragrams[quartet] {
       score += englishFrequency
     }
   }
@@ -275,6 +281,8 @@ var topScore = -1.0
 var topNewScore = -1.0
 var topPlaintext = ""
 var keepTrying = true
+
+//Main program entry point.
 
 //Run playfair over and over with different keys until we find the expected phrase
 //in the plaintext. At that point, show the user the possible plaintext and ask if it is
