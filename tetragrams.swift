@@ -1,5 +1,5 @@
 //Data obtained from http://bionsgadgets.appspot.com/ww_forms/tettable.js
-let tetragrams = [ "aaaa": 0.71188, "aaae": 0.0187332, "aaar": 1.40503, "aabo": 0.71188, "aadi": 0.71188, "aaet": 0.0187332, "aafi": 0.0187332, "aaft": 1.11735, "aaja": 0.71188, "aale": 0.0187332,
+public let tetragrams = [ "aaaa": 0.71188, "aaae": 0.0187332, "aaar": 1.40503, "aabo": 0.71188, "aadi": 0.71188, "aaet": 0.0187332, "aafi": 0.0187332, "aaft": 1.11735, "aaja": 0.71188, "aale": 0.0187332,
 "aali": 0.0187332, "aall": 0.71188, "aals": 0.0187332, "aalt": 0.0187332, "aama": 0.0187332, "aami": 0.0187332, "aamo": 0.0187332, "aand": 3.48447, "aant": 0.0187332, "aape": 0.71188,
 "aapo": 0.0187332, "aaps": 0.0187332, "aara": 0.0187332, "aarc": 0.0187332, "aard": 1.40503, "aare": 1.11735, "aari": 0.0187332, "aark": 0.0187332, "aaro": 0.71188, "aarr": 0.0187332,
 "aart": 0.0187332, "aash": 0.0187332, "aasi": 0.0187332, "aask": 0.0187332, "aaso": 0.0187332, "aast": 0.0187332, "aata": 0.0187332, "aath": 0.0187332, "aati": 0.0187332, "aatl": 0.0187332,

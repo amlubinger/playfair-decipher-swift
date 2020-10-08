@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Tetragrams
 
 //First entry point.
 
